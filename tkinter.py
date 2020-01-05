@@ -6,10 +6,15 @@ class Application(Frame):
     def say_hi(self):
         print "hi there, everyone!"
         sub_w = Toplevel()
+        sub_w.overrideredirect(True)
         sub_w.geometry("200x100")
         MESSAGE=Label(sub_w)
         MESSAGE["text"]="Hi there, everyone"
         MESSAGE.pack({"side":"top"})
+        btn=Button(sub_w)
+        btn["text"]="close"
+        btn["command"]=sub_w.quit
+        btn.pack({"side":"bottom"})
 
     def createWidgets(self):
         self.QUIT = Button(self)
