@@ -5,6 +5,11 @@ from Tkinter import *
 class Application(Frame):
     def say_hi(self):
         print "hi there, everyone!"
+        sub_w = Toplevel()
+        sub_w.geometry("200x100")
+        MESSAGE=Label(sub_w)
+        MESSAGE["text"]="Hi there, everyone"
+        MESSAGE.pack({"side":"top"})
 
     def createWidgets(self):
         self.QUIT = Button(self)
@@ -30,8 +35,9 @@ dispH=root.winfo_screenheight()
 dispW=root.winfo_screenwidth()
 print("Hight=%s" % dispH)
 print("Width=%s" % dispW)
-
-root.wm_geometry("200x200")
+# right 
+viewW=int(dispW)-200-5
+root.wm_geometry("200x200+%d+0" % viewW)
 app = Application(master=root)
 app.mainloop()
 root.destroy()
