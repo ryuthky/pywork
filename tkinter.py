@@ -35,40 +35,62 @@ class Application(Frame,object):
         btn.grid(column=2,row=1,padx=2,pady=2,sticky="NSEW")
     def main_pop_hide(self):
         self.master.wm_withdraw()
+
     def main_pop_raise(self):
         self.p_w.destroy()
         self.master.wm_deiconify()
+
+    def character_limit(self,entrychk):
+        if len(entrychk.get()) > 0:
+            entrychk.set(entrychk.get()[:5])
+    def entrychk1(self,*args):
+        self.character_limit(self.entry_text1)
+    def entrychk2(self,*args):
+        self.character_limit(self.entry_text2)
+    def entrychk3(self,*args):
+        self.character_limit(self.entry_text3)
+
     def place_pop(self):
         self.main_pop_hide()
         self.p_w = Toplevel(self)
-        self.p_w.geometry("200x200")
-        self.p_f=Frame(self.p_w,width=200,height=200)
+        self.p_w.geometry("200x300")
+        self.p_f=Frame(self.p_w,width=200,height=400)
         self.p_f.pack()
 
         la=Label(self.p_f,text="Green",bg="green")
         la.place(relx=0.02, rely=0.1, relheight=0.3, relwidth=0.45)
 
-        lb=Label(self.p_f,text="Red",bg="red")
+        lb=Label(self.p_f,text="Red",bg="purple",fg="white")
         lb.place(relx=0.47, rely=0.1, relheight=0.2, relwidth=0.51)
 
         lc=Label(self.p_f,text="Blue",bg="blue")
         lc.place(relx=0.47, rely=0.3, relheight=0.1, relwidth=0.51)
 
         l1=Label(self.p_f,text="Message1",bg="white")
-        l1.place(relx=0.02, rely=0.5, relheight=0.1, relwidth=0.96)
+        l1.place(relx=0.02, rely=0.4, relheight=0.05, relwidth=0.96)
         l2=Label(self.p_f,text="Message2Message2",bg="gray")
-        l2.place(relx=0.02, rely=0.6, relheight=0.1, relwidth=0.96)
+        l2.place(relx=0.02, rely=0.45, relheight=0.05, relwidth=0.96)
         l3=Label(self.p_f,text="Message3Message3Message3",bg="white")
-        l3.place(relx=0.02, rely=0.7, relheight=0.1, relwidth=0.96)
+        l3.place(relx=0.02, rely=0.50, relheight=0.05, relwidth=0.96)
+
+
+        e1=Entry(self.p_f,textvariable = self.entry_text1)
+        e1.place(relx=0.02, rely=0.55, relheight=0.1, relwidth=0.96)
+
+        e2=Entry(self.p_f,textvariable = self.entry_text2)
+        e2.place(relx=0.02, rely=0.65, relheight=0.1, relwidth=0.96)
+
+        e3=Entry(self.p_f,textvariable = self.entry_text3)
+        e3.place(relx=0.02, rely=0.75, relheight=0.1, relwidth=0.96)
 
         b1=Button(self.p_f,text="Hi",command=self.say_hi)
-        b1.place(relx=0.10,rely=0.82,relheight=0.1,relwidth=0.25)
+        b1.place(relx=0.05,rely=0.9,relheight=0.08,relwidth=0.25)
 
         b2=Button(self.p_f,text="CANCEL",command=self.main_pop_raise)
-        b2.place(relx=0.40,rely=0.82,relheight=0.1,relwidth=0.25)
+        b2.place(relx=0.40,rely=0.9,relheight=0.08,relwidth=0.25)
 
         b3=Button(self.p_f,text="QUIT",command=self.quit)
-        b3.place(relx=0.70,rely=0.82,relheight=0.1,relwidth=0.25)
+        b3.place(relx=0.70,rely=0.9,relheight=0.08,relwidth=0.25)
 
     def createWidgets(self):
         self.INFO1 = Label(self)
@@ -133,7 +155,12 @@ class Application(Frame,object):
         self.master.wm_geometry("450x300+%d+0" % (viewX))
         self.pack(expand=True, fill="both", anchor="center")
         self.createWidgets()
-
+        self.entry_text1= StringVar()
+        self.entry_text2= StringVar()
+        self.entry_text3= StringVar()
+        self.entry_text1.trace("w",self.entrychk1)
+        self.entry_text2.trace("w",self.entrychk2)
+        self.entry_text3.trace("w",self.entrychk3)
 
 """main"""
 def main():
