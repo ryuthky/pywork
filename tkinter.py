@@ -38,8 +38,11 @@ class Application(Frame,object):
 
     def main_pop_raise(self):
         self.p_w.destroy()
+        self.comtent1["text"]=self.entry_text1.get()
+        self.comtent2["text"]=self.entry_text2.get()
+        self.comtent3["text"]=self.entry_text3.get()
         self.master.wm_deiconify()
-
+        
     def character_limit(self,entrychk):
         if len(entrychk.get()) > 0:
             entrychk.set(entrychk.get()[:5])
@@ -49,7 +52,10 @@ class Application(Frame,object):
         self.character_limit(self.entry_text2)
     def entrychk3(self,*args):
         self.character_limit(self.entry_text3)
-
+    def entryclear(self):
+        self.entry_text1.set("")
+        self.entry_text2.set("")
+        self.entry_text3.set("")
     def place_pop(self):
         self.main_pop_hide()
         self.p_w = Toplevel(self)
@@ -83,10 +89,10 @@ class Application(Frame,object):
         e3=Entry(self.p_f,textvariable = self.entry_text3)
         e3.place(relx=0.02, rely=0.75, relheight=0.1, relwidth=0.96)
 
-        b1=Button(self.p_f,text="Hi",command=self.say_hi)
+        b1=Button(self.p_f,text="INPUT",command=self.main_pop_raise)
         b1.place(relx=0.05,rely=0.9,relheight=0.08,relwidth=0.25)
 
-        b2=Button(self.p_f,text="CANCEL",command=self.main_pop_raise)
+        b2=Button(self.p_f,text="CANCEL",command=self.entryclear)
         b2.place(relx=0.40,rely=0.9,relheight=0.08,relwidth=0.25)
 
         b3=Button(self.p_f,text="QUIT",command=self.quit)
@@ -130,7 +136,7 @@ class Application(Frame,object):
         #self.hi_there.pack({"side": "left"})
         self.hi_there.grid(column=2,row=4,padx=2,pady=2,sticky="NSEW")
 
-        self.comtent1=Label(self,width=20,height=10,bg="black")
+        self.comtent1=Label(self,width=20,height=10,bg="black",fg="white")
         self.comtent1.grid(column=0,row=5,padx=2,sticky="E")
         #self.comtents.pack({"side": "left"})
 
