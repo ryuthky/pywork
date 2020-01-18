@@ -3,7 +3,7 @@
 from Tkinter import *
 #import Tkinter
 
-class Application(Frame):
+class Application(Frame,object):
     def say_hi(self):
         print "hi there, everyone!"
         sub_w = Toplevel()
@@ -33,9 +33,14 @@ class Application(Frame):
         btn["command"]=sub_w.quit
         #btn.pack({"side":"bottom"})
         btn.grid(column=2,row=1,padx=2,pady=2,sticky="NSEW")
-
+    def main_pop_hide(self):
+        self.master.wm_withdraw()
+    def main_pop_raise(self):
+        self.p_w.destroy()
+        self.master.wm_deiconify()
     def place_pop(self):
-        self.p_w = Toplevel()
+        self.main_pop_hide()
+        self.p_w = Toplevel(self)
         self.p_w.geometry("200x200")
         self.p_f=Frame(self.p_w,width=200,height=200)
         self.p_f.pack()
@@ -57,13 +62,15 @@ class Application(Frame):
         l3.place(relx=0.02, rely=0.7, relheight=0.1, relwidth=0.96)
 
         b1=Button(self.p_f,text="Hi",command=self.say_hi)
-        b1.place(relx=0.03,rely=0.82,relheight=0.1,relwidth=0.44)
+        b1.place(relx=0.10,rely=0.82,relheight=0.1,relwidth=0.25)
 
-        b2=Button(self.p_f,text="QUIT",command=self.p_w.quit)
-        b2.place(relx=0.50,rely=0.82,relheight=0.1,relwidth=0.44)
+        b2=Button(self.p_f,text="CANCEL",command=self.main_pop_raise)
+        b2.place(relx=0.40,rely=0.82,relheight=0.1,relwidth=0.25)
+
+        b3=Button(self.p_f,text="QUIT",command=self.quit)
+        b3.place(relx=0.70,rely=0.82,relheight=0.1,relwidth=0.25)
 
     def createWidgets(self):
-
         self.INFO1 = Label(self)
         self.INFO1["text"]="Test"
         self.INFO1["bg"]="blue"
@@ -115,18 +122,27 @@ class Application(Frame):
 
 
     def __init__(self, master=None):
-        Frame.__init__(self, master,width=290,height=200)
+        #Frame.__init__(self, master,width=290,height=200)
+        super(Application,self).__init__(master)#,width=290,height=200)
+        dispH=self.master.winfo_screenheight()
+        dispW=self.master.winfo_screenwidth()
+        print("Hight=%s" % dispH)
+        print("Width=%s" % dispW)
+        # right 
+        viewX=int(dispW)-200-5
+        self.master.wm_geometry("450x300+%d+0" % (viewX))
         self.pack(expand=True, fill="both", anchor="center")
         self.createWidgets()
 
-root = Tk()
-dispH=root.winfo_screenheight()
-dispW=root.winfo_screenwidth()
-print("Hight=%s" % dispH)
-print("Width=%s" % dispW)
-# right 
-viewW=int(dispW)-200-5
-root.wm_geometry("450x300+%d+0" % (viewW))
-app = Application(master=root)
-app.mainloop()
-root.destroy()
+
+"""main"""
+def main():
+    root = Tk()
+    #root.wm_geometry("450x300+%d+0" % (viewW))
+    root.title("MainFrame")
+    app = Application(master=root)
+    app.mainloop()
+    root.destroy()
+
+if __name__ == "__main__":
+    main()
