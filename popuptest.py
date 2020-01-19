@@ -25,7 +25,7 @@ class Application(Frame,object):
         btn_m.grid(column=0,row=1,padx=2,pady=2,sticky="NSEW")
 
         btn_m2=Button(frame)
-        btn_m2["text"]="Foget"        
+        btn_m2["text"]="Notting"        
         btn_m2["command"]=sub_w.quit
         btn_m2.grid(column=1,row=1,padx=2,pady=2,sticky="NSEW")
 
