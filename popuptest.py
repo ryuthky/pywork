@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from Tkinter import *
 #import Tkinter
+import sys
 
 class Application(Frame,object):
     def say_hi(self):
@@ -41,6 +42,7 @@ class Application(Frame,object):
         self.comtent1["text"]=self.entry_text1.get()
         self.comtent2["text"]=self.entry_text2.get()
         self.comtent3["text"]=self.entry_text3.get()
+        self.relationdata=self.entry_text1.get()+self.entry_text2.get()+self.entry_text3.get()
         self.master.wm_deiconify()
         
     def character_limit(self,entrychk):
@@ -110,7 +112,10 @@ class Application(Frame,object):
         #self.INFO2.pack({"side":"left"})
         self.INFO2.grid(column=0,row=2,columnspan=3,padx=2,sticky="NSEW")
         self.INFO2 = Label(self)
-        self.INFO2["text"]="Inofometion!"
+        if self.relationdata is not None:
+            self.INFO2["text"]=self.relationdata
+        else:
+            self.INFO2["text"]="Inofometion!"
         self.INFO2["bg"]="blue"
         #self.INFO2.pack({"side":"left"})
         self.INFO2.grid(column=0,row=3,columnspan=3,padx=2,sticky="NSEW")
@@ -149,9 +154,10 @@ class Application(Frame,object):
         #self.comtents.pack({"side": "left"})
 
 
-    def __init__(self, master=None):
+    def __init__(self, master=None,reldata=None):
         #Frame.__init__(self, master,width=290,height=200)
         super(Application,self).__init__(master)#,width=290,height=200)
+        self.relationdata=reldata
         dispH=self.master.winfo_screenheight()
         dispW=self.master.winfo_screenwidth()
         print("Hight=%s" % dispH)
@@ -169,13 +175,17 @@ class Application(Frame,object):
         self.entry_text3.trace("w",self.entrychk3)
 
 """main"""
-def main():
+def main(pathdata=None):
     root = Tk()
     #root.wm_geometry("450x300+%d+0" % (viewW))
     root.title("MainFrame")
-    app = Application(master=root)
+    app = Application(master=root,reldata=pathdata)
     app.mainloop()
+    ans = app.relationdata
     root.destroy()
+    return ans
 
 if __name__ == "__main__":
-    main()
+    args = sys.argv
+    pathdata=args[1]
+    main(pathdata)
