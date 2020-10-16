@@ -1,12 +1,12 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-from Tkinter import *
+from tkinter import *
 #import Tkinter
 import sys
 
 class Application(Frame,object):
     def say_hi(self):
-        print "hi there, everyone!"
+        print("hi there, everyone!")
         sub_w = Toplevel()
         sub_w.overrideredirect(True)
         sub_w.geometry("220x100")
