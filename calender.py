@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
+from datetime import date
 import os
 import tkinter as tk
 import logging
@@ -15,7 +16,8 @@ class mycalender(tk.Frame):
         now = datetime.datetime.now()
         self.year = now.year
         self.month = now.month
-        logger.info("%s:%s",now.year,now.month)
+        self.date = now
+        logger.info("%s/%s/%s",now.year,now.month,now.day)
         frame_top = tk.Frame(self)
         frame_top.pack(pady=5)
         self.previous_month = tk.Label(frame_top, text = "<", font = ("",14))
@@ -52,11 +54,10 @@ class mycalender(tk.Frame):
 
         # 日付部分を作成するメソッドの呼び出し
         self.create_calendar(self.year,self.month)
-
-        self.bind_all("<1>",self.select_day)
-
+        self.current_day()
+ 
     def create_calendar(self,year,month):
-        # calendarモジュールのインスタンスを作成
+        # calendarモジュールのインスタンスを作成    
         import calendar
         cal = calendar.Calendar()
         # 指定した年月のカレンダーをリストで返す
@@ -71,29 +72,34 @@ class mycalender(tk.Frame):
         # 日付ボタンを格納する変数をdict型で作成
         self.day = {}
         # for文を用いて、日付ボタンを生成
+        j=1
         for i in range(0,42):
             c = i - (7 * int(i/7))
             r = int(i/7)
             try:
                 # 日付が0でなかったら、ボタン作成
                 if days[r][c] != 0:
-                    self.day[i] = d_button(self.frame_calendar,text = days[r][c])
-                    self.day[i].grid(column=c,row=r)
-                    #new_tags = self.day[i].bindtags()+("mytag",)
-                    #self.day[i].bindtags(new_tags)
+                    self.day[j] = d_button(self.frame_calendar,text = days[r][c])
+                    self.day[j].grid(column=c,row=r)
+                    j+=1
             except:
                 break
         self.etonum(year)
 
-    def select_day(self,event):
-        day = event.widget["text"]
-        logger.debug("%s日",day)
-        if event.widget["bg"] == "SystemButtonFace":
-            event.widget["bg"] = "red"
-        # 赤色になっていたら、元に戻す。
-        else:
-            event.widget["bg"] = "SystemButtonFace"
-
+    # def select_day(self,event):
+    #     day = event.widget["text"]
+    #     logger.debug("%s日",day)
+    #     if event.widget["bg"] == "SystemButtonFace":
+    #         event.widget["bg"] = "red"
+    #     # 赤色になっていたら、元に戻す。
+    #     else:
+    #         event.widget["bg"] = "SystemButtonFace"
+    def current_day(self):
+        logger.debug("%s日",self.date.day)
+        dw=self.day[self.date.day]
+        if  dw != None:
+            dw["bg"]="yellow"
+        
 
     def change_month(self,event):
         if(event.widget["text"] == "<"):
@@ -130,6 +136,14 @@ class d_button(tk.Button):
     def __init__(self,master=None,cnf={},**kw):
         tk.Button.__init__(self,master,cnf,**kw)
         self.configure(font=("",14),height=2, width=4, relief="flat")
+        self.bind("<1>",self.bgcolorchg)
+    def bgcolorchg(self,event):
+        if event.widget["bg"] == "SystemButtonFace":
+            event.widget["bg"] = "red"
+        # 赤色になっていたら、元に戻す。
+        else:
+            event.widget["bg"] = "SystemButtonFace"
+        
 
 def main():
     print("Hello Py:",os.path.basename(__file__))
